@@ -1,3 +1,6 @@
 ## Wordcloud
 ### Yet another word cloud script using R
-This is my attempt at using R for a project and it is text mining. 
+
+This group of scripts was created to learn more about R and to produce world clouds for use in the OU Libraries Knowledge Services group (KS) in conjunction with the Repositories being established by KS. 
+
+The iPython notebook contains code to clean up the ShareOK csv file. 
