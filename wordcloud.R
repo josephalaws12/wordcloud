@@ -24,6 +24,9 @@ cname
 # docs <- Corpus(DirSource(cname))
 
 #cvs file from Purcell
+# jokes <- read.csv(file='./purcell/ML-AS-Jokes.csv', head=TRUE, sep=',')
+# docs = Corpus(VectorSource(jokes[2]))
+
 
 # shareok <- read.csv(file='./shareok/11244-1.csv', head=TRUE, sep=',')
 shareok <- read.csv(file='./shareok/test.csv', head=TRUE, sep=',')
@@ -39,7 +42,7 @@ docs = Corpus(VectorSource(shareok[2]))
 
 for (j in seq(docs))
 {
-  docs[[j]] <- gsub("\\...", " ", docs[[j]])
+  docs[[j]] <- gsub("\\.\\.\\.", " ", docs[[j]])
   docs[[j]] <- gsub("\\::", " ", docs[[j]])
   docs[[j]] <- gsub("/", " ", docs[[j]])
   docs[[j]] <- gsub("@", " ", docs[[j]])
@@ -50,12 +53,13 @@ for (j in seq(docs))
 
 
 docs <- tm_map(docs, tolower)
-docs <- tm_map(docs, removeNumbers)
+# docs <- tm_map(docs, removeNumbers)
 docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeWords, stopwords("english"))
 # docs <- tm_map(docs, removeWords, c("may", "also", "can"))
-docs <- tm_map(docs, removeWords, c("college", "school", "department", "jeannine",  "rainbolt", "weitzenhoffer"))
-# docs <- tm_map(docs, stripWhitespace)
+docs <- tm_map(docs, removeWords, c("college", "school", "department", "jeannine",  "rainbolt", "weitzenhoffer", 'mewbourne', 'phillips','conoco', 
+                                    'homer','dodge', 'gaylord', 'michael', 'price', 'family'))
+docs <- tm_map(docs, stripWhitespace)
 
 # Needed to fix error:Error: inherits(doc, "TextDocument") is not TRUE
 docs <- tm_map(docs,PlainTextDocument)
@@ -90,16 +94,18 @@ word_freqs = sort(rowSums(m), decreasing=TRUE)
 dm = data.frame(word=names(word_freqs), freq=word_freqs)
 
 # output to screen and png file
+#
 # wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 # png("purcell.png", width=12, height=8, units="in", res=300)
-# 3wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+# wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 
 
-wordcloud(dm$word, dm$freq, max.words=20, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 
+# wordcloud(dm$word, dm$freq, max.words=20, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-png("wordcloud.png", width=12, height=8, units="in", res=300)
-# dev.off()
+png("wordcloud1.png", width=12, height=8, units="in", res=300)
+wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 
 
+dev.off()
 
