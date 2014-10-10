@@ -23,18 +23,24 @@ cname
 # simple text
 # docs <- Corpus(DirSource(cname))
 
-#cvs file from Purcell
+# cvs file from Purcell
+#
 # jokes <- read.csv(file='./purcell/ML-AS-Jokes.csv', head=TRUE, sep=',')
 # docs = Corpus(VectorSource(jokes[2]))
 
 
+# This section is for using ShareOK data cleaned up using the Clean_Shareok ipython notebook
+#
 # shareok <- read.csv(file='./shareok/11244-1.csv', head=TRUE, sep=',')
-shareok <- read.csv(file='./shareok/test.csv', head=TRUE, sep=',')
+# shareok <- read.csv(file='./shareok/college_dept.csv', head=TRUE, sep=',')
+shareok <- read.csv(file='./shareok/advisors.csv', head=TRUE, sep=',')
 # docs = Corpus(VectorSource(shareok[46]))
 # docs = Corpus(VectorSource(shareok[52]))
-docs = Corpus(VectorSource(shareok[2]))
+# docs = Corpus(VectorSource(shareok[2])) # department column
+docs = Corpus(VectorSource(shareok[1])) # college & advisor column
 
 # Twitter
+#
 # library(twitteR)
 
 
@@ -64,7 +70,7 @@ docs <- tm_map(docs, stripWhitespace)
 # Needed to fix error:Error: inherits(doc, "TextDocument") is not TRUE
 docs <- tm_map(docs,PlainTextDocument)
 
-inspect(docs)
+# inspect(docs)
 
 # word stem
 # docs <- tm_map(docs, stemDocument)
@@ -103,7 +109,13 @@ dm = data.frame(word=names(word_freqs), freq=word_freqs)
 
 # wordcloud(dm$word, dm$freq, max.words=20, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-png("wordcloud1.png", width=12, height=8, units="in", res=300)
+png("wordcloud.png", width=12, height=8, units="in", res=300)
+
+# png("shareok_departments.png", width=12, height=8, units="in", res=300)
+# png("shareok_colleges.png", width=12, height=8, units="in", res=300)
+# png("shareok_advisors.png", width=12, height=8, units="in", res=300)
+
+
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 
 
