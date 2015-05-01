@@ -9,11 +9,12 @@ library(SnowballC) # Provides wordStem() for stemming.
 library(RColorBrewer) # Generate palette of colours for plots.
 library(ggplot2) # Plot word frequencies.
 library(wordcloud) # Library for plotting wordcloudsd
+library(gdata) # library for reading excel
 # library(Rgraphviz) # Correlation plots.
 
 # Path to file
-cname <- file.path(".","txt")
-cname
+# cname <- file.path(".","txt")
+# cname
 
 # Input of text files for various types of documents
 # PDF
@@ -33,11 +34,16 @@ cname
 #
 # shareok <- read.csv(file='./shareok/11244-1.csv', head=TRUE, sep=',')
 # shareok <- read.csv(file='./shareok/college_dept.csv', head=TRUE, sep=',')
-shareok <- read.csv(file='./shareok/advisors.csv', head=TRUE, sep=',')
+# shareok <- read.csv(file='./shareok/advisors.csv', head=TRUE, sep=',')
 # docs = Corpus(VectorSource(shareok[46]))
 # docs = Corpus(VectorSource(shareok[52]))
 # docs = Corpus(VectorSource(shareok[2])) # department column
-docs = Corpus(VectorSource(shareok[1])) # college & advisor column
+# docs = Corpus(VectorSource(shareok[1])) # college & advisor column
+
+# OU STEM Outcomes
+stem_outcome <- read.xls('./stem/STEM_SLOs_2014.xlsx')
+# stem_outcome <- read
+docs <- Corpus(VectorSource(stem_outcome[1]))
 
 # Twitter
 #
@@ -53,6 +59,7 @@ for (j in seq(docs))
   docs[[j]] <- gsub("/", " ", docs[[j]])
   docs[[j]] <- gsub("@", " ", docs[[j]])
   docs[[j]] <- gsub("\\|", " ", docs[[j]])
+  docs[[j]] <- gsub("\\'", " ", docs[[j]])
 }
 
 
@@ -120,4 +127,10 @@ wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 
 
 dev.off()
+
+library(xtable)
+
+word_freqs.table <- xtable(dm)
+digits(word_freqs.table) <- 0
+print(word_freqs.table, floating=FALSE)
 
